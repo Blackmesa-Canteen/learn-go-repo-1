@@ -38,6 +38,27 @@ func main() {
 		})
 	})
 
+	r.GET("/get", func(context *gin.Context) {
+		username := context.Query("username")
+		age := context.DefaultQuery("age", "1")
+		context.JSON(http.StatusOK, gin.H{
+			"username": username,
+			"age":      age,
+		})
+	})
+
+	r.POST("/post", func(context *gin.Context) {
+
+		username := context.PostForm("username")
+		// 页面需要一个form
+		context.HTML(http.StatusOK, "newa.html", gin.H{
+			"title": username,
+		})
+
+		// 获取request body的数据
+		// data, _ := context.GetRawData()
+	})
+
 	// web服务
 	err := r.Run(":8000")
 	if err != nil {
